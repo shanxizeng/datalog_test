@@ -1,0 +1,79 @@
+.decl data(x : symbol, y : number)
+.decl edge(u : number, v : number)
+.decl kill(x : symbol, y : number)
+.decl gen(x : symbol, y : number)
+.input edge
+.output data
+
+kill("y+", 1).
+kill("y-", 1).
+kill("y0", 1).
+kill("z+", 1).
+kill("z-", 1).
+kill("z0", 1).
+
+kill("x+", 2).
+kill("x-", 2).
+kill("x0", 2).
+kill("z+", 2).
+kill("z-", 2).
+kill("z0", 2).
+
+kill("x+", 3).
+kill("x-", 3).
+kill("x0", 3).
+kill("y+", 3).
+kill("y-", 3).
+kill("y0", 3).
+kill("z+", 3).
+kill("z-", 3).
+kill("z0", 3).
+
+kill("y+", 4).
+kill("y-", 4).
+kill("y0", 4).
+kill("z+", 4).
+kill("z-", 4).
+kill("z0", 4).
+
+kill("x+", 5).
+kill("x-", 5).
+kill("x0", 5).
+kill("z+", 5).
+kill("z-", 5).
+kill("z0", 5).
+
+kill("x+", 6).
+kill("x-", 6).
+kill("x0", 6).
+kill("y+", 6).
+kill("y-", 6).
+kill("y0", 6).
+kill("z+", 6).
+kill("z-", 6).
+kill("z0", 6).
+
+data(D, V) :- gen(D, V).
+data(D, V) :- data(D, VV), edge(VV, V), kill(D, V).
+
+gen("x+", 1) :- data("x+", 0).
+gen("x-", 1) :- data("x-", 0).
+gen("x0", 1) :- data("x0", 0).
+
+gen("y+", 2) :- data("y+", 1).
+gen("y+", 2) :- data("y0", 1).
+gen("y-", 2) :- data("y-", 1).
+gen("y0", 2) :- data("y-", 1).
+
+gen("y+", 5) :- data("y+", 4).
+gen("y+", 5) :- data("y0", 4).
+gen("y-", 5) :- data("y-", 4).
+gen("y0", 5) :- data("y-", 4).
+
+gen("x+", 4) :- data("x-", 3).
+gen("x-", 4) :- data("x+", 3).
+gen("x0", 4) :- data("x0", 3).
+
+data("x-", 0).
+data("y0", 0).
+data("z+", 0).
