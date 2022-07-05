@@ -1,0 +1,53 @@
+.decl edge(U: number, V: number)
+.decl kill(Index: number, Var: symbol)
+.decl gen(Index: number, Var: symbol, Sign: symbol)
+.decl data(Index: number, Var: symbol, Sign: symbol)
+.decl initialSign(Var: symbol, Sign: symbol)
+.decl operatorType(Index: number, Operator: symbol)
+.decl variableNumber(Index: number, Count: number)
+.decl constantSign(Index: number, Sign: symbol)
+.decl variable1(Index: number, Var: symbol)
+.decl variable2(Index: number, Var: symbol)
+
+.input edge
+.input kill
+.input initialSign
+.input operatorType
+.input variableNumber
+.input constantSign
+.input variable1
+.input variable2
+
+data(0, V, S) :- initialSign(V, S).
+data(I, V, S) :- edge(II, I), data(II, V, S), !kill(I, V).
+data(I, V, S) :- gen(I, V, S).
+
+gen(I, V, S) :- kill(I, V), variableNumber(I, 0), constantSign(I, S).
+gen(I, V, S) :- kill(I, V), variableNumber(I, 1), operatorType(I, "*"), constantSign(I, "+"), edge(II, I), variable1(I, VV), data(II, VV, S).
+gen(I, V, "0") :- kill(I, V), variableNumber(I, 1), operatorType(I, "*"), constantSign(I, "0").
+gen(I, V, "0") :- kill(I, V), variableNumber(I, 1), operatorType(I, "*"), edge(II, I), variable1(I, VV), data(II, VV,"0").
+gen(I, V, "+") :- kill(I, V), variableNumber(I, 1), operatorType(I, "*"), constantSign(I, "-"), edge(II, I), variable1(I, VV), data(II, VV, "-").
+gen(I, V, "-") :- kill(I, V), variableNumber(I, 1), operatorType(I, "*"), constantSign(I, "-"), edge(II, I), variable1(I, VV), data(II, VV, "+").
+gen(I, V, "+") :- kill(I, V), variableNumber(I, 1), operatorType(I, "+"), constantSign(I, "+").
+gen(I, V, "-") :- kill(I, V), variableNumber(I, 1), operatorType(I, "+"), constantSign(I, "-").
+gen(I, V, S) :- kill(I, V), variableNumber(I, 1), operatorType(I, "+"), constantSign(I, "0"), edge(II, I), variable1(I, VV), data(II, VV,S).
+gen(I, V, "+") :- kill(I, V), variableNumber(I, 1), operatorType(I, "+"), edge(II, I), variable1(I, VV), data(II, VV, "+").
+gen(I, V, "-") :- kill(I, V), variableNumber(I, 1), operatorType(I, "+"), edge(II, I), variable1(I, VV), data(II, VV, "-").
+gen(I, V, "0") :- kill(I, V), variableNumber(I, 1), operatorType(I, "+"), constantSign(I, "+"), edge(II, I), variable1(I, VV), data(II, VV, "-").
+gen(I, V, "0") :- kill(I, V), variableNumber(I, 1), operatorType(I, "+"), constantSign(I, "-"), edge(II, I), variable1(I, VV), data(II, VV, "+").
+gen(I, V, "0") :- kill(I, V), variableNumber(I, 1), operatorType(I, "+"), constantSign(I, "0"), edge(II, I), variable1(I, VV), data(II, VV, "0").
+gen(I, V, "0") :- kill(I, V), variableNumber(I, 2), operatorType(I, "*"), edge(II, I), variable1(I, VV), data(II, VV, "0").
+gen(I, V, "0") :- kill(I, V), variableNumber(I, 2), operatorType(I, "*"), edge(II, I), variable2(I, VVV), data(II, VVV, "0").
+gen(I, V, "+") :- kill(I, V), variableNumber(I, 2), operatorType(I, "*"), edge(II, I), variable1(I, VV), variable2(I, VVV), data(II, VV, "+"), data(II, VVV, "+").
+gen(I, V, "+") :- kill(I, V), variableNumber(I, 2), operatorType(I, "*"), edge(II, I), variable1(I, VV), variable2(I, VVV), data(II, VV, "-"), data(II, VVV, "-").
+gen(I, V, "-") :- kill(I, V), variableNumber(I, 2), operatorType(I, "*"), edge(II, I), variable1(I, VV), variable2(I, VVV), data(II, VV, "+"), data(II, VVV, "-").
+gen(I, V, "-") :- kill(I, V), variableNumber(I, 2), operatorType(I, "*"), edge(II, I), variable1(I, VV), variable2(I, VVV), data(II, VV, "-"), data(II, VVV, "+").
+gen(I, V, "+") :- kill(I, V), variableNumber(I, 2), operatorType(I, "+"), edge(II, I), variable1(I, VV), data(II, VV, "+").
+gen(I, V, "+") :- kill(I, V), variableNumber(I, 2), operatorType(I, "+"), edge(II, I), variable2(I, VVV), data(II, VVV, "+").
+gen(I, V, "-") :- kill(I, V), variableNumber(I, 2), operatorType(I, "+"), edge(II, I), variable1(I, VV), data(II, VV, "-").
+gen(I, V, "-") :- kill(I, V), variableNumber(I, 2), operatorType(I, "+"), edge(II, I), variable2(I, VVV), data(II, VVV, "-").
+gen(I, V, "0") :- kill(I, V), variableNumber(I, 2), operatorType(I, "+"), edge(II, I), variable1(I, VV), variable2(I, VVV), data(II, VV, "+"), data(II, VVV, "-").
+gen(I, V, "0") :- kill(I, V), variableNumber(I, 2), operatorType(I, "+"), edge(II, I), variable1(I, VV), variable2(I, VVV), data(II, VV, "-"), data(II, VVV, "+").
+gen(I, V, "0") :- kill(I, V), variableNumber(I, 2), operatorType(I, "+"), edge(II, I), variable1(I, VV), variable2(I, VVV), data(II, VV, "0"), data(II, VVV, "0").
+
+.output data

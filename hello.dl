@@ -7,3 +7,4 @@ rel(x, y) :- rel(y, x).
 .decl negrel(x: number, y: number)
 negrel(x, y) :- rel(x, z), rel(z, y), !rel(x, y), x != y.
 .output negrel
+			  
