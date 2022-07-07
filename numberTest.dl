@@ -1,0 +1,5 @@
+.decl test(x: number)
+
+.input test
+
+.output test

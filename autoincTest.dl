@@ -1,0 +1,8 @@
+.decl A(x: symbol)
+.decl B(x: symbol, y: number)
+
+.input A
+
+B(x, autoinc()) :- A(x).
+
+.output B

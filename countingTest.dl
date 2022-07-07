@@ -1,0 +1,27 @@
+.decl A(x: number)
+
+.input A
+
+.decl CA(x: number)
+
+CA(x) :- x = count:{A(_)}.
+
+.output CA
+
+.decl minA(x: number)
+
+minA(x) :- x = min x:{A(x)}.
+
+.output minA
+
+.decl maxA(x: number)
+
+maxA(x) :- x = max x:{A(x)}.
+
+.output maxA
+
+.decl sumA(x: number)
+
+sumA(x) :- x = sum x:{A(x)}.
+
+.output sumA

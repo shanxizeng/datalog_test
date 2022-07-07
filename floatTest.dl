@@ -1,0 +1,11 @@
+.decl A(x: float)
+
+.input A
+
+.decl B(x: float, y: number)
+.decl C(x: float)
+
+B(x, autoinc()) :- A(x).
+C(x) :- B(x, y), y % 2 = 0.
+
+.output C
