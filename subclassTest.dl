@@ -1,0 +1,10 @@
+.type odd <: number
+.type even <: number
+.type all = odd | even
+.decl A(x: odd)
+.decl B(x: even)
+.decl C(x: all)
+A(1).
+B(2).
+C(x) :- A(x); B(x).
+.output C

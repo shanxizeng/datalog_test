@@ -1,0 +1,5 @@
+.decl A(x: number)
+.decl B(x: symbol)
+A(1).
+B(x) :- A(y), x = to_string(y).
+.output B

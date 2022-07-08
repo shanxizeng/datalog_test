@@ -1,0 +1,4 @@
+.type IntPair = [l:number, r:number]
+.decl A(x:IntPair)
+A([1,2]).
+.output A

@@ -1,0 +1,5 @@
+.type AllNumber = number | float
+.decl A(x:AllNumber)
+A(1).
+A(3.14).
+.output A

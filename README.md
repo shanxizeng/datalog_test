@@ -24,11 +24,23 @@ souffle中支持各种基本代数运算（包括取余和取幂）以及位运�
 
 souffle中的关系必须声明。关系由一个列表```(x1,x2,...,xk)```组成。每个部分声明各自的类型。
 
+使用`.decl <rel-name>(x1:type1, x2:type2, ..., xk:typek)`定义关系。
+
+### 输入输出
+
+使用`.input <rel-name>`和`.output <rel-name>`进行输入输出。从`<rel-name>.facts`中读取输入，并将输出存在`<rel-name>.csv`中。注意数据要用制表符分隔。
+
+使用`.printsize <rel-name>`输出集合基数。
+
 ### 规则
 
 规则是条件逻辑语句，由规则头和规则体组成。如```path(x,y) :- path(x,z),edge(z,y)```
 
-### 聚合
+使用$!$对某个语句取非。注意为了保证单调性，在循环的定义中不能使用not。
+
+### Functor
+
+#### 聚合
 
 Soufflé 中的聚合是指使用特定的函子来汇总有关查询的信息，聚合类型包括计数、求最小值/最大值、求和。在 Soufflé 中，信息通常不能从子目标（聚合函子的参数）流到外部作用域。例如，如果希望找到关系 Cost(x) 的最小值，无法找到使成本最小化的特定 x 值，因为这样的 x 值可能不是唯一的。
 
@@ -41,6 +53,66 @@ Soufflé 中的聚合是指使用特定的函子来汇总有关查询的信息�
 求和：```sum <var>:{<sub-goal(<var>)>}```
 
 参考countingTest.dl
+
+#### 字符串函数
+
+字符串拼接：`cat(x,y)`
+
+字符串长度：`strlen(x)`
+
+求子串：`substr(x,idx,len)`
+
+转化函数：`to_string(x)`
+
+Constraints:
+
+子串：`contains(sub,str)`
+
+正则表达式：`match(regexpr,str)`
+
+### 类型系统
+
+使用`.type`定义新的类型。如：
+
+```datalog
+.type Mytype = number
+.decl A(x:Mytype)
+```
+
+#### Records
+
+使用`[x1:type1,...,xk:typek]`定义Records，如
+
+```datalog
+.type IntPair = [l:number, r:number]
+.type IntList = [x:number, xs:IntList]
+.decl edge(e:IntPair)
+.decl len(len:number, xs:IntList)
+```
+
+Records可以定义一些递归类型。使用nil表示递归结束。
+
+#### 子类
+
+使用符号 `<:`定义子类，如
+
+```datalog
+.type City <: symbol
+.type Town <: symbol
+.type Village <: symbol 
+```
+
+ 使用$|$创建子类的union，如
+
+```datalog
+.type Position = City | Town | Village
+```
+
+使用`as(expr,type)` 进行类型转换
+
+#### 抽象数据类型ADT
+
+union只能表示由同一个基类生成的子类的并。如果要表示不同基类生成的子类，就必须使用ADT。
 
 ### 组件
 
@@ -133,6 +205,8 @@ TestInstance.Rel(10).
 
 
 ## 参考
+
+[Tutorial | Soufflé](https://souffle-lang.github.io/tutorial)
 
 [Datalog 引擎 Soufflé 指南 - Jckling's Blog](https://jckling.github.io/2021/11/22/Other/Datalog%20%E5%BC%95%E6%93%8E%20Souffl%C3%A9%20%E6%8C%87%E5%8D%97/)
 
