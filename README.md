@@ -114,6 +114,21 @@ Records可以定义一些递归类型。使用nil表示递归结束。
 
 union只能表示由同一个基类生成的子类的并。如果要表示不同基类生成的子类，就必须使用ADT。
 
+定义：`.type name = bname1 { name11:type11, ..., name1k1:type1k1 } | bname2 { name21:type21, ..., name2k2:type2k2} | ...`
+
+`bnamei`表示一个`branch`的名字。使用`$bname(...)`选择一个分支。
+
+```datalog
+.type T = N {a:number} | S {b:symbol} // Either a number or a symbol
+.decl A(p: T)  // set of numbers or symbols
+A($N(1)). 
+A($S(“hello world”)).
+// Flatten relation A
+.decl Flatten(a:number, b:symbol) 
+Flatten(a, ””) :- A($N(a)).
+Flatten(0, b) :- A($S(b)).  
+```
+
 ### 组件
 
 Soufflé 有组件这个概念，可用于模块化大型逻辑程序。一个组件可能包含其他组件、关系、类型声明、事实、规则和指令；组件必须声明和实例化后才可以使用，每个组件都有自己的命名空间；组件可以继承一个或多个超级组件。
